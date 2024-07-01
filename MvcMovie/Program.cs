@@ -5,6 +5,8 @@ using MvcMovie.Models;
 
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<MvcBookContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MvcBookContext") ?? throw new InvalidOperationException("Connection string 'MvcBookContext' not found.")));
 builder.Services.AddDbContext<MvcMovieContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MvcMovieContext") ?? throw new InvalidOperationException("Connection string 'MvcMovieContext' not found.")));
 
