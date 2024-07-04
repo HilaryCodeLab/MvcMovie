@@ -15,5 +15,8 @@ namespace MvcMovie.Data
         }
 
         public DbSet<MvcMovie.Models.Book> Book { get; set; } = default!;
+        //new line
+        //public DbSet<MvcMovie.Models.BookGenre> BookGenreList { get; set; }
+        //end new line
     }
 }

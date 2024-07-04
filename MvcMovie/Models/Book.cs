@@ -8,7 +8,7 @@ namespace MvcMovie.Models
         public string Title { get; set; }
         public string? Author { get; set; }
         [RegularExpression(@"^(\d{4})$", ErrorMessage ="Enter a valid 4 digit Year")]
-        public int? Year { get; set; }        
+        public int? Year { get; set; }              
         public string Genre { get; set; }
         
         [Range(0,100)]        

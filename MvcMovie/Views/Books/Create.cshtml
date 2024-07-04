@@ -30,8 +30,15 @@
             </div>
             <div class="form-group">
                 <label asp-for="Genre" class="control-label"></label>
-                <input asp-for="Genre" class="form-control" />
+                @* <input asp-for="Genre" class="form-control" /> *@
+                @Html.DropDownList("Genre",
+                         ViewBag.BookGenres,
+                         "Select Genre",
+                         new{@class ="form-control"})
                 <span asp-validation-for="Genre" class="text-danger"></span>
+
+                @* <select name="bookGenreList" class="form-control" asp-items="@(new SelectList(ViewBag.bookGenre, "Value", "Text"))"></select> *@
+                @* <a asp-controller="BookGenres" asp-action="Create">Add new genre</a> *@
             </div>           
             <div class="form-group">
                 <label asp-for="Price" class="control-label"></label>

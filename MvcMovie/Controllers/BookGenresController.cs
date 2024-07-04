@@ -10,22 +10,22 @@ using MvcMovie.Models;
 
 namespace MvcMovie.Controllers
 {
-    public class BooksController : Controller
+    public class BookGenresController : Controller
     {
-        private readonly MvcBookContext _context;
+        private readonly MvcBookGenreContext _context;
 
-        public BooksController(MvcBookContext context)
+        public BookGenresController(MvcBookGenreContext context)
         {
             _context = context;
         }
 
-        // GET: Books
+        // GET: BookGenres
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Book.ToListAsync());
+            return View(await _context.BookGenre.ToListAsync());
         }
 
-        // GET: Books/Details/5
+        // GET: BookGenres/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,63 +33,39 @@ namespace MvcMovie.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Book
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (book == null)
+            var bookGenre = await _context.BookGenre
+                .FirstOrDefaultAsync(m => m.BookGenreId == id);
+            if (bookGenre == null)
             {
                 return NotFound();
             }
 
-            return View(book);
+            return View(bookGenre);
         }
 
-        List<string> bookGenres = new List<string>()
-            {
-                "Non-fiction",
-                "Fiction",
-                "Romantic",
-                "History",
-                "Documentary"
-
-            };
-        // GET: Books/Create
+        // GET: BookGenres/Create
         public IActionResult Create()
         {
-            //new line
-            //var genreList = _context.BookGenreList.Select(m => new SelectListItem { Value = m.BookGenreId.ToString(), Text = m.BookGenreName }).ToList();
-            //ViewBag.GenreList = genreList;
-            //var genreList = new BookGenreViewModel().BookGenreList
-            //     .Select(x => new SelectListItem { Value = x.BookGenreId.ToString(), Text = x.BookGenreName }).ToList();
-
-            //Book model = new Book
-            //{
-            //    bookGenreList = genreList
-            //};
-            //end new line
-            
-            ViewBag.BookGenres = new SelectList(bookGenres);
-            
             return View();
         }
 
-        // POST: Books/Create
+        // POST: BookGenres/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Author,Year,Genre,Price")] Book book)
+        public async Task<IActionResult> Create([Bind("BookGenreId,Name")] BookGenre bookGenre)
         {
             if (ModelState.IsValid)
             {
-                ViewBag.BookGenres = new SelectList(bookGenres, "Genre", "Name");
-                _context.Add(book);
+                _context.Add(bookGenre);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(book);
+            return View(bookGenre);
         }
 
-        // GET: Books/Edit/5
+        // GET: BookGenres/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -97,25 +73,22 @@ namespace MvcMovie.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Book.FindAsync(id);
-            if (book == null)
+            var bookGenre = await _context.BookGenre.FindAsync(id);
+            if (bookGenre == null)
             {
                 return NotFound();
             }
-
-            ViewBag.BookGenres = new SelectList(bookGenres);
-
-            return View(book);
+            return View(bookGenre);
         }
 
-        // POST: Books/Edit/5
+        // POST: BookGenres/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Author,Year,Genre,Price")] Book book)
+        public async Task<IActionResult> Edit(int id, [Bind("BookGenreId,Name")] BookGenre bookGenre)
         {
-            if (id != book.Id)
+            if (id != bookGenre.BookGenreId)
             {
                 return NotFound();
             }
@@ -124,12 +97,12 @@ namespace MvcMovie.Controllers
             {
                 try
                 {
-                    _context.Update(book);
+                    _context.Update(bookGenre);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BookExists(book.Id))
+                    if (!BookGenreExists(bookGenre.BookGenreId))
                     {
                         return NotFound();
                     }
@@ -140,10 +113,10 @@ namespace MvcMovie.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(book);
+            return View(bookGenre);
         }
 
-        // GET: Books/Delete/5
+        // GET: BookGenres/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -151,34 +124,34 @@ namespace MvcMovie.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Book
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (book == null)
+            var bookGenre = await _context.BookGenre
+                .FirstOrDefaultAsync(m => m.BookGenreId == id);
+            if (bookGenre == null)
             {
                 return NotFound();
             }
 
-            return View(book);
+            return View(bookGenre);
         }
 
-        // POST: Books/Delete/5
+        // POST: BookGenres/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var book = await _context.Book.FindAsync(id);
-            if (book != null)
+            var bookGenre = await _context.BookGenre.FindAsync(id);
+            if (bookGenre != null)
             {
-                _context.Book.Remove(book);
+                _context.BookGenre.Remove(bookGenre);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool BookExists(int id)
+        private bool BookGenreExists(int id)
         {
-            return _context.Book.Any(e => e.Id == id);
+            return _context.BookGenre.Any(e => e.BookGenreId == id);
         }
     }
 }
