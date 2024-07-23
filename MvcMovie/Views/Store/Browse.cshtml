@@ -1,0 +1,29 @@
+﻿@model MvcMovie.Models.Genre
+
+@* @{
+    ViewData["Title"] = "Browse";
+} *@
+
+@{
+    ViewBag.Title = "Browse";
+}
+
+<h1>Browse</h1>
+<h2>Browsing Genre: @Model.Name</h2>
+
+<div>
+    <h4>Genre</h4>
+    <hr />
+    <ul>
+        @foreach (var album in Model.Albums)
+        {
+           <li>@album.Title</li>
+        }
+    </ul>
+    
+    
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>

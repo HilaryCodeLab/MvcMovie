@@ -5,6 +5,8 @@ using MvcMovie.Models;
 
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<MvcAlbumContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MvcAlbumContext") ?? throw new InvalidOperationException("Connection string 'MvcAlbumContext' not found.")));
 builder.Services.AddDbContext<MvcBookGenreContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MvcBookGenreContext") ?? throw new InvalidOperationException("Connection string 'MvcBookGenreContext' not found.")));
 builder.Services.AddDbContext<MvcBookContext>(options =>
@@ -22,6 +24,7 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
 
     SeedData.Initialize(services);
+    //SampleData.SeedAlbums(services);
 }
 
 // Configure the HTTP request pipeline.
